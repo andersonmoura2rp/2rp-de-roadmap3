@@ -1,5 +1,6 @@
 #!/bin/bash
 #curso shell script tarefa1 2rp
+
 lista_arquivos(){
 echo "Arquivos do repositório: "
 	for entry in `ls -R * $search_dir`
@@ -9,23 +10,25 @@ done
 }
 
 echo 
+
 DIR="$( cd "$( dirname "$0" )" && pwd  )"
-
-lista_arquivos
-
 echo
 echo "Caminho: "
 vetor=("$DIR")
 echo ${vetor[*]}
 
+lista_arquivos  
+
 insere_texto(){
+
+	echo -e "\n"$1 | tee -a $2 $3 $4 
 	echo
-	echo "Digite o que deseja inserir no arquivo: "
-	read p
-	echo $p >> arquivo.txt 
-	echo
-	echo "Texto inserido em arquivo.txt"
-	echo
-	cat arquivo.txt
+	echo "Texto inserido!"
 }
-insere_texto 
+insere_texto $1 $2 $3 $4 
+
+#Parâmetros: 
+	#Diretório $1
+	#Arquivos $2 $3 $4  
+
+

@@ -1,2 +1,0 @@
-Ola mundo
-Curso shell script trilha de conhecimento 2rp
