@@ -4,11 +4,11 @@ source funcoes.sh
 
 echo
 
-lista_arquivos $1
+lista_arquivos Subdir1
 
 for i in $(seq 1 ${#files[@]})
     do
-        insere_texto "$2" ${files[i-1]} 
+        insere_texto "Alterações 3" ${files[i-1]} 
     done
 
 #Parâmetros: 
