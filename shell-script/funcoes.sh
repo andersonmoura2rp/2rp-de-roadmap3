@@ -3,10 +3,9 @@
 
 lista_arquivos(){
 echo "Arquivos do repositório: "
-	for entry in `ls -R * $search_dir`
-do
-  echo "$entry" 
-done
+files=(`find $1 -type f`)
+
+echo ${files[*]} 
 }
 
 echo 
@@ -16,8 +15,9 @@ echo
 echo "Caminho: "
 vetor=("$DIR")
 echo ${vetor[*]}
+echo
 
-lista_arquivos  
+lista_arquivos $1 $2 
 
 insere_texto(){
 

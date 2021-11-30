@@ -4,9 +4,7 @@ source funcoes.sh
 
 echo
 
-files=(`find $1 -type f`)
-echo "Vetor Arquivos: "
-echo ${files[*]}
+lista_arquivos $1
 
 for i in $(seq 1 ${#files[@]})
     do
