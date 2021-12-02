@@ -140,3 +140,94 @@ APACHE AMBARI
 		FRAMEWORK AMBER ALERT
 		- Serviço de alerta de acordo com a necessidade
 
+2) HADOOP ARCHITETURE 
+ARQUITETURA HDFS
+- Sistema de arquivos estruturados em blocos 
+- Cada arquivo é dividido em blocos de tamanho pré-determinado
+- Os blocos são armazenados em um cluster de uma ou várias máquinas
+- Segue uma arquitetura "mestre-escravo" em que um cluster é composto por um único NameNode e todos os outros nós são DataNodes
+NAMENODE
+- Nó mestre
+- Mantém e gerencia os blocos presentes nos DataNodes (nós-escravos)
+- Controla o acesso dos clientes aos arquivos
+- Os dados residem apenas no DataNodes
+	FUNÇÕES
+	I) Mantém e gerencia DataNodes
+	II) Registra os metadados de todos os arquivos armazenados no cluster
+		ARQUIVOS ASSOCIADOS AOS METADADOS
+		- FSIMAGE: Contém o estado completo do namespace do sistema de arquivos
+		- EDITLOGS: Contém todas as modificações recentes feitas no sistema de arquivos em relação ao FSIMAGE mais recente
+	III) Registra cada mudança que ocorre nos metadados
+	IV) Recebe regularmente um heartbeat e um relatório de bloco de todos os DataNodes
+	V) Cuidar do fator de replicação
+	VI) No caso de falha do DataNode, o NameNode escolhe novos DataNodes para novas réplicas, equilibra o uso do disco e gerencia o trafego de comunicação para os DataNodes
+DATANODE
+- Nó escravo
+- Hardware
+- Servidor de bloco que armazena os dados no arquivo local ext3 ou ext4
+	FUNÇÕES
+	I) Armazenamento dos dados reais
+	II) Executam as solicitações de leitura e gravação de baixo nível dos clientes do sistema de arquivos
+	III) Enviam pulsações ao NameNode periodicamente(3s) para relatar a integridade geral do HDFS
+NAMENODE SECUNDÁRIO
+- Funciona simultaneamente com o NameNode 
+- Auxiliar
+	FUNÇÕES
+	I) Lê sistemas de arquivo e metadados da RAM do NameNode e os grava no disco rígido ou no sistema de arquivos
+	II) Combinar EditLogs com FSIMAGE do NameNode
+	III) Baixa os EditLogs do NameNode em intervalos regulares e se aplica ao FsImage é copiado de volta para o NameNode, que é usado sempre que o NameNOde é iniciado
+BLOCOS
+- Menor local contínuo em disco rígido onde os dados são armazenados
+- Tamanho padrão: 128MB
+* Não é necessário ser múltiplos exatos
+	GERENCIAMENTO DE REPLICAÇÃO
+	- Tolerância a falhas
+	- Fator de replicação padrão: 3
+	- Cada bloco é replicado 3x e armazenado em diferentes DataNodes
+	CONSCIENTIZAÇÃO DE RACK
+	- O NameNode garante que todas as réplicas não sejam armazenadas no mesmo rack
+	- Redução de latência e tolerância a falhas
+	- A primeira réplica será armazenada em um rack local e as outras 2 em um rack remoto
+		VANTAGENS
+		- Melhor desempenho da rede
+		- Evitar perda de dados
+ARQUITETURA DE LEITURA E GRAVAÇÃO
+- Filosofia Write Once-Read Many
+- Não se pode editar arquivos já armazenados mas pode acrescentar novos dados abrindo novamente o arquivo
+	GRAVAÇÃO
+	- NameNode concederá ao cliente a permissão de gravação e fornecerá os IPs dos DataNodes
+	- Etapas:
+	1. Configuração do pipeline
+	2. Streaming e replicação de dados
+	3. Desligamento do pipeline
+		CONFIGURAÇÃO DO PIPELINE
+		- Antes de gravar os blocos, o cliente confirma se os DataNodes, presentes nas listas estão prontos para receber os dados
+		- É criadpo um pipeline para cada bloco, conectando os DataNodes individuais na lista desse bloco
+			ETAPAS CRIAÇÃO
+			1. O cliente escolhe o primeiro DataNode da lista
+			2. O cliente informa o DataNode1 para estar pronto para receber o bloco
+			3. O DataNode1 se conecta ao DataNode4. O DN1 informa o DN4 para estar pronto e da o IP do 6, então dirá ao 6, etc.
+			4. O reconhecimento segue sequência inversa 6 -> 4 -> 1 -> cliente
+			5. Por fim, informa o cliente
+			6. Inicia o processo de streaming
+		STREAMING DE DADOS
+		- Envio de dados para o pipeline
+		- Replicação de dados com base no fator 3
+			ETAPAS REPLICADO
+			1. Depois que o bloco foi gravado no DN1 pelo cliente, o DN1 se conectará ao DN4
+			2. DN1 enviará o bloco no pipeline e os dados serão copiados para o DN4
+			3. DN4 se conectará ao DN6 e copiará a ultima replica do bloco 
+		ENCERRAMENTO DO PIPELINE/RECONHECIMENTO
+		- Uma série de reconhecimento ocorrerá para garantir ao cliente e NameNode que os dados foram gravados com sucesso
+		- A configuração ocorre na sequencia inversa
+			1. O DN enviará 3 confirmações para o pipeline e as enviará ao cliente
+			2. O cliente informará NameNode que os dados foram gravados
+			3. O NameNode atualização seus metadados
+			4. Cliente desligará o pipeline
+	LEITURA
+	- Etapas
+		1. O cliente solicita os metadados do bloco
+		2. O NameNode retorna a lista de DataNodes
+		3. O Namenode se conecta ao DataNode
+		4. Cliente lê os dados e forma o arquivo
+
