@@ -231,3 +231,47 @@ ARQUITETURA DE LEITURA E GRAVAÇÃO
 		3. O Namenode se conecta ao DataNode
 		4. Cliente lê os dados e forma o arquivo
 
+3) UDEMY - REAL WORLD HADOOP - HANDS ON ENTERPRISE DISTRIBUTED STORAGE
+CRIANDO UM ESPAÇO DE USUÁRIO PARA LER/GRAVAR
+	COMANDO LS EM CLUSTER
+	- hdfs dfs -help ls (ajuda)
+	- hdfs dfs ls (lista conteúdo)
+	- hdfs dfs -mkdir (cria diretorio)
+	- sudo -u hdfs -mkdir/user/<nome> (muda user)
+CARREGANDO UM ARQUIVO NO HDFS (UPLOAD)
+- hdfs dfs -help put (ajuda)
+- hdfs dfs -put <localsrc> <caminho> (upload)
+- hdfs dfs -cat (ler arquivo)
+- hdfs dfs -tail (ler parte do arquivo)
+- hdfs fsck <caminho> (detalha o arquivo)
+- hdfs fsck <caminho> -files -blocks (detalha os blocos)
+	LS, RM E EXPUNGE
+	- - hdfs dfs -rm -skiptrash <arquivo> <caminho> (remove tudo permanentemente)
+* trash = lixeira(opcional)
+FAZER MERGE DE VÁRIOS ARQUIVOS SIMULTANEAMENTE
+1) Criar n arquivos
+2) Add todos em uma única pasta
+3) hdfs dfs -help appendToFile
+4) hdfs dfs -appendToFile toyin* <localsrc><dst> /arquivo.txt
+appendToFile: unir vários arquivos em um único
+BUSCA DE ARQUIVOS -find
+- find .-name "<nomearquivo>" (local)
+- hdfs dfs -find <caminho> -name "<nome>" 
+- hdfs dfs -find <caminho> -name "<nome*>" (arquivo que começam com nome)
+GET E GETMERGE
+- hdfs dfs help -get
+- hdfs dfs -get <caminho><destinolocal>
+- hdfs dfs help -getmerge
+- hdfs dfs -getmerge <caminho><destino>
+CONTAGEM DE ARQUIVOS/PASTAS
+- hdfs dfs help -count
+- hdfs dfs -count -h -v <caminho>
+TODOS OS COMANDOS
+- hdfs dfs
+COPIAR E MOVER ARQUIVOS
+-cp <nome><destino>(dentro de uma pasta)
+-mv <nome><destino>
+-cp <origem><destino>(dentro de outro arquivo)
+-mv <origem><destino>
+COMBINAR TOUCH E APPENDTOFILE
+- hdfs dfs touchz <caminho>.<nomearquivo>
