@@ -275,3 +275,21 @@ COPIAR E MOVER ARQUIVOS
 -mv <origem><destino>
 COMBINAR TOUCH E APPENDTOFILE
 - hdfs dfs touchz <caminho>.<nomearquivo>
+COMO OBTER LOGS DE JOBS
+- hadoop job -logs job_1614043964439_1868
+COMO VISUALIZAR REPLICAÇÃO DE ARQUIVOS
+	ARQUIVO ESPECÍFICO
+	- hadoop fs -stat %r /path/to/file
+	DIRETÓRIO INTEIRO 
+	- hadoop dfs -ls /parent/path
+COMO VERIFICAR A QUANTIDADE DE BLOCOS EM UMA TABELA
+- Verificar periodicamente a quantidade de blocos e executar a concatenação dos mesmos contribui com a saúde dos nossos clusters
+	DATABASES INTERNOS
+	- /user/hive/warehouse
+	- hdfs fsck /user/hive/warehouse/<database>.db/<table>  -files -blocks | grep "Total blocks (validated):"
+		OU
+	- hadoop fs -ls -R /user/<service_user>/warehouse/<database>.db/ <table>  |wc -l
+	DATABASES EXTERNOS
+	- /user/<service_user>/warehouse
+	- hdfs fsck /user/<service_user>/warehouse/<database>.db/<table>  -files -blocks | grep "Total blocks (validated):"
+* As informações estarão à direita em "Contagem de diretórios e arquivos"
