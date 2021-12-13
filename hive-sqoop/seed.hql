@@ -51,13 +51,13 @@ POPULAR TABELAS
 	4)load data inpath 'hdfs://bigdataclu-ns/user/2rp-anderson/pokemon.csv' into table pokemon_anderson2;
 	5)insert into pokemon_anderson select * from pokemon_anderson2;
 JOIN
-	HIVE: 11 SEGUNDOS
+	HIVE: 1min48seg
 		select * from pokemon_anderson p  
-		full outer join generation_anderson g  
+		join generation_anderson g  
 		on p.generation = g.generation;
-	IMPALA:16 SEGUNDOS
-		SELECT * FROM pokemon_anderson 
-		JOIN generation_anderson 
-		WHERE 
-		pokemon_anderson.generation = generation_anderson.generation;
+
+	IMPALA:1.38 SEGUNDOS (*No impala a coluna data_introduced não deve ser selecionada pois o tipo DATE não é suportado)
+		select G.generation, P.* from generation_anderson G
+		join pokemon_anderson P  
+		on G.generation = P.generation;
 
