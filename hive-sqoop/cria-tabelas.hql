@@ -3,7 +3,6 @@ create table generation_anderson(
     generation int,
     date_introduced date
 )
-row format delimited fields terminated by ','
  stored as orc;
 
 
@@ -18,5 +17,4 @@ create table pokemon_anderson (
 	special_defense int, 
 	generation  int
 )
-row format delimited fields terminated by ',' 
 stored as orc;

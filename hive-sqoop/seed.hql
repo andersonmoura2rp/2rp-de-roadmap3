@@ -3,7 +3,8 @@
 	create table generation_anderson(
 	    generation int,
 	    date_introduced date
-	) stored as orc;
+	) 
+	stored as orc;
 
 	TABELA POKEMON
 	create table pokemon_anderson (
@@ -16,7 +17,8 @@
 		defense int, 
 		special_defense int, 
 		generation  int
-	) stored as orc;
+	) 
+	stored as orc;
 
 POPULAR TABELAS
 	TABELA GENERATION: 

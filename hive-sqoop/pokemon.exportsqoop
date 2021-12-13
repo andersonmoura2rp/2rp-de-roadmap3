@@ -1,0 +1,9 @@
+sqoop export \
+--table 
+pokemon_anderson \
+--export-dir 
+hdfs://bigdataclu-ns/user/hive/warehouse/work_dataeng.db/pokemon_anderson \
+--table 
+pokemon_anderson_sqoop \
+--columns 
+idnum, name, hp, speed \ 
