@@ -1,3 +1,5 @@
+--ATIVIDADE HIVE/SQOOP -- ANDERSON -- TRILHA DE APRENDIZADO ENGENHARIA DE DADOS 2RP --
+
 sqoop export \
 --table 
 work_dataeng.pokemon_anderson \

@@ -1,3 +1,4 @@
+--ATIVIDADE HIVE/SQOOP -- ANDERSON -- TRILHA DE APRENDIZADO ENGENHARIA DE DADOS 2RP --
 
 create table work_dataeng.generation_anderson(
     generation int,
