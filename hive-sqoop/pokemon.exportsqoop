@@ -1,0 +1,11 @@
+--ATIVIDADE HIVE/SQOOP -- ANDERSON -- TRILHA DE APRENDIZADO ENGENHARIA DE DADOS 2RP --
+
+sqoop export \
+--table 
+work_dataeng.pokemon_anderson \
+--export-dir 
+hdfs://bigdataclu-ns/user/hive/warehouse/work_dataeng.db/pokemon_anderson \
+--table 
+pokemon_anderson_sqoop \
+--columns 
+idnum, name, hp, speed \ 
