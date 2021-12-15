@@ -55,11 +55,11 @@ POPULAR TABELAS
 JOIN
 	HIVE: 1min48seg
 		select * from work_dataeng.pokemon_anderson p  
-		join generation_anderson g  
+		join work_dataeng.generation_anderson g  
 		on p.generation = g.generation;
 
 	IMPALA:1.38 SEGUNDOS (*No impala a coluna data_introduced não deve ser selecionada pois o tipo DATE não é suportado)
 		select G.generation, P.* from work_dataeng.generation_anderson G
-		join pokemon_anderson P  
+		join work_dataeng.pokemon_anderson P  
 		on G.generation = P.generation;
 
