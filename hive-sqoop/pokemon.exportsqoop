@@ -1,6 +1,6 @@
 sqoop export \
 --table 
-pokemon_anderson \
+work_dataeng.pokemon_anderson \
 --export-dir 
 hdfs://bigdataclu-ns/user/hive/warehouse/work_dataeng.db/pokemon_anderson \
 --table 

@@ -1,13 +1,13 @@
 --CRIAÇÃO DAS TABELAS--
 	TABELA GENERATION:
-	create table generation_anderson(
+	create table work_dataeng.generation_anderson(
 	    generation int,
 	    date_introduced date
 	) 
 	stored as orc;
 
 	TABELA POKEMON
-	create table pokemon_anderson (
+	create table work_dataeng.pokemon_anderson (
 		idnum   int, 
 		name string, 
 		hp  int,
@@ -22,7 +22,7 @@
 
 POPULAR TABELAS
 	TABELA GENERATION: 
-	insert into generation_anderson
+	insert into work_dataeng.generation_anderson
 	(generation,date_introduced) 
 	values
 	(1,'1996-02-27'),
@@ -37,7 +37,7 @@ POPULAR TABELAS
 	1) Abrir o hive através do hue
 	2) Acessar HDFS > USER > UPLOAD FILE > pokemon.csv
 	3) Criar tabela temporária:
-		create external table pokemon_anderson2 (
+		create external table work_dataeng.pokemon_anderson_temp (
 		idnum   int, 
 		name string, 
 		hp  int,
@@ -48,18 +48,18 @@ POPULAR TABELAS
 		special_defense int, 
 		generation  int
 		) row format delimited fields terminated by ',' 
-		stored as textfile;
+		stored as textfile tblproperties ("skip.header.line.count"="1");
 
-	4)load data inpath 'hdfs://bigdataclu-ns/user/2rp-anderson/pokemon.csv' into table pokemon_anderson2;
-	5)insert into pokemon_anderson select * from pokemon_anderson2;
+	4)load data inpath 'hdfs://bigdataclu-ns/user/2rp-anderson/pokemon.csv' into table work_dataeng.pokemon_anderson_temp;
+	5)insert into work_dataeng.pokemon_anderson select * from work_dataeng.pokemon_anderson_temp;
 JOIN
 	HIVE: 1min48seg
-		select * from pokemon_anderson p  
+		select * from work_dataeng.pokemon_anderson p  
 		join generation_anderson g  
 		on p.generation = g.generation;
 
 	IMPALA:1.38 SEGUNDOS (*No impala a coluna data_introduced não deve ser selecionada pois o tipo DATE não é suportado)
-		select G.generation, P.* from generation_anderson G
+		select G.generation, P.* from work_dataeng.generation_anderson G
 		join pokemon_anderson P  
 		on G.generation = P.generation;
 

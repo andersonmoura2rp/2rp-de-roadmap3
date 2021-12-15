@@ -1,12 +1,12 @@
 
-create table generation_anderson(
+create table work_dataeng.generation_anderson(
     generation int,
     date_introduced date
 )
  stored as orc;
 
 
-create table pokemon_anderson (
+create table work_dataeng.pokemon_anderson (
 	idnum   int, 
 	name string, 
 	hp  int,
