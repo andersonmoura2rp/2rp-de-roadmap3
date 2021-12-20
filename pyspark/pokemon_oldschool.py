@@ -28,8 +28,5 @@ pokemons_oldschools_anderson = pokemons_oldschools_anderson.withColumnRenamed('g
 #Inner join entre generation_anderson e pokemon_anderson
 df_innerjoin = df_pokemon_anderson.join(df_generation_anderson, on=[df_p_anderson.pokemon_generation == df_generation_anderson.g_generation], how = 'inner');
 
-#Criar view a partir do df_innerjoin para popular tabela
-df_innerjoin.createOrReplaceTempView("df_innerjoin_anderson");
-
-#Criar tabela a partir dos dados da view:
-spark.sql("create table work_dataeng.pokemons_oldschool_anderson as select * from df_innerjoin_anderson");
+#Criar tabela:
+df_innerjoin.write.mode('overwrite').format('orc').saveAsTable('work_dataeng.pokemons_oldschool_anderson');
