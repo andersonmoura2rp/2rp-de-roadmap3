@@ -23,10 +23,9 @@ df_generation_anderson = df_generation_anderson.cache()
 #Renomear colunas "generation" para evitar nomes duplicados
 df_pokemon_anderson = df_pokemon_anderson.withColumnRenamed('generation', 'p_generation');
 df_generation_anderson = df_generation_anderson.withColumnRenamed('generation', 'g_generation');
-pokemons_oldschools_anderson = pokemons_oldschools_anderson.withColumnRenamed('generation', 'o_generation');
 
 #Inner join entre generation_anderson e pokemon_anderson
-df_innerjoin = df_pokemon_anderson.join(df_generation_anderson, on=[df_p_anderson.pokemon_generation == df_generation_anderson.g_generation], how = 'inner');
+df_innerjoin = df_pokemon_anderson.join(df_generation_anderson, on=[df_pokemon_anderson.p_generation == df_generation_anderson.g_generation], how = 'inner');
 
 #Criar tabela:
 df_innerjoin.write.mode('overwrite').format('orc').saveAsTable('work_dataeng.pokemons_oldschool_anderson');
