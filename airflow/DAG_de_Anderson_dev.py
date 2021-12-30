@@ -10,7 +10,7 @@ default_args = {
     "owner":user,
     "start_date": datetime(2021,12,22),
     "depend_on_past": False,
-    "retries": 2,
+    "retries": 3,
     "retry_delay": timedelta(minutes=1),
     "run_as_user": user,
     "proxy_user": user
