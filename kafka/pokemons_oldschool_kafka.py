@@ -21,7 +21,7 @@ df_innerjoin.write.mode('overwrite').format('orc').saveAsTable('work_dataeng.pok
 #ATIVIDADE KAFKA
 from pyspark.sql.functions import struct, to_json
 
-pokemons_oldschool_anderson = spark.sql("""SELECT * FROM work_dataeng.pokemons_oldschool_anderson limit 10""")
+pokemons_oldschool_anderson = spark.sql("""SELECT name FROM work_dataeng.pokemons_oldschool_anderson limit 10""")
 database = 'work_dataeng'
 topic_name = "nifi.send.trilha.conhecimento"
 kafka_bootstrap_servers = "192.168.80.8:19093,192.168.80.7:19093,192.168.80.14:19093"
