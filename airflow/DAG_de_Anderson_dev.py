@@ -39,5 +39,12 @@ with DAG(dag_id='DAG_de_Anderson_dev', schedule_interval=None, default_args=defa
         proxy_user=None,
         verbose=True
     )
+    t_sensor = FileSensor(
+        task_id="filesensor",
+        filepath="/home/airflow/airflow/dags/DAG_de_Anderson_sensor.py",
+        poke_interval=20,
+        dag=dag 
+        
+    )
 
-    t_dummy >> t_kinit >> t_executar >> t_pokemon
+    t_sensor >> t_dummy >> t_kinit >> t_executar >> t_pokemon
